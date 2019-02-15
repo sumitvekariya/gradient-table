@@ -1,0 +1,21 @@
+* {
+    text-align: center;
+    height: auto;
+}
+
+table,
+th,
+td {
+    border: 1px lightgray;
+    font-size: 10px;
+    text-align: center;
+    /* border-collapse: collapse; */
+}
+material-button {
+    background-color: #ff7c7c;
+    color: white;
+}
+
+.cell {
+    padding: 10px !important;
+}
