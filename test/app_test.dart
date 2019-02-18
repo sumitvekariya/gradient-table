@@ -17,7 +17,7 @@ void main() {
   tearDown(disposeAnyRunningTest);
 
   test('Default greeting', () {
-    expect(fixture.text, 'Hello Angular');
+    expect(fixture.text, 'Gradient Table');
   });
 
   test('Greet world', () async {
@@ -27,6 +27,6 @@ void main() {
 
   test('Greet world HTML', () {
     final html = fixture.rootElement.innerHtml;
-    expect(html, '<h1>Hello Angular</h1>');
+    expect(html, '<h1>Gradient Table</h1>');
   });
 }

@@ -1,9 +1,8 @@
 import 'package:angular/angular.dart';
 import 'package:angular_forms/angular_forms.dart';
+import 'package:angular_components/focus/focus.dart';
 import 'package:angular_components/material_input/material_input.dart';
-import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_button/material_button.dart';
-import 'package:angular_components/material_input/material_number_accessor.dart';
 
 @Component(selector: 'my-app', templateUrl: './app_component.html', styleUrls: [
   './app_component.css'
@@ -12,32 +11,26 @@ import 'package:angular_components/material_input/material_number_accessor.dart'
   NgIf,
   NgStyle,
   formDirectives,
+  AutoFocusDirective,
   materialInputDirectives,
-  MaterialIconComponent,
-  MaterialButtonComponent,
-  materialNumberInputDirectives
+  MaterialButtonComponent
 ])
-class AppComponent implements OnInit {
+class AppComponent {
   var name = 'Gradient Table';
   var tableSize;
   var size = 32;
   var rows = [];
   var columns = [];
   double maxRange = 256;
-  Control form;
   get checkValid => demoValidator;
 
-  AppComponent() {
-    form = Control();
-  }
-
-  @override
-  void ngOnInit() {}
+  AppComponent() {}
 
   createTable() {
-    rows = List.generate(tableSize + 1, (i) => i);
-    columns = List.generate(tableSize + 1, (i) => toColumnName(i));
-    size = tableSize;
+    final tSize = int.parse(tableSize);
+    rows = List.generate(tSize + 1, (i) => i);
+    columns = List.generate(tSize + 1, (i) => toColumnName(i));
+    size = tSize;
   }
 
   String toColumnName(num) {
@@ -78,8 +71,9 @@ class AppComponent implements OnInit {
     // return null;
   }
 
-  checkIfInputValid() {
-    if ((tableSize != null && (tableSize < 2 || tableSize > 100) || tableSize == null)) {
+  bool checkIfInputValid() {
+    final size = int.parse(tableSize == null || tableSize == '' ? '0' : tableSize);
+    if ((size != null && (size < 2 || size > 100) || size == null)) {
       return true;
     }
     return false;

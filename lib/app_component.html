@@ -1,5 +1,5 @@
-<material-input [checkValid]="checkValid" label="Enter Table Size" type="number" [ngFormControl]="form" required
-    requiredErrorMsg="Please Enter Table Size!" [lowerBound]="2" [upperBound]="100" [(ngModel)]="tableSize"></material-input>
+<material-input [checkValid]="checkValid" label="Enter Table Size" required
+    requiredErrorMsg="Please Enter Table Size!" [(ngModel)]="tableSize"></material-input>
 <material-button raised (click)="createTable()" [disabled]="checkIfInputValid()">Create Gradient!</material-button>
 <div style="overflow-x:auto; overflow-y:scroll;height:83vh;">
     <table>
