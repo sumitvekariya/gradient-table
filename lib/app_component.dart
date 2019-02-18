@@ -17,7 +17,7 @@ import 'package:angular_components/material_button/material_button.dart';
 ])
 class AppComponent {
   var name = 'Gradient Table';
-  var tableSize;
+  String tableSize;
   var size = 32;
   var rows = [];
   var columns = [];
@@ -60,22 +60,25 @@ class AppComponent {
   }
 
   String demoValidator(dynamic inputText) {
-    print(int.parse(inputText));
-    if (inputText == null) return null;
+    // print(int.parse(inputText));
+    final size = getParsedNumber();
+    if (size == null) return null;
 
-    if (inputText == 0) return 'Input contains 0';
-
-    if (int.parse(inputText) < 2 || int.parse(inputText) > 100)
+    if (size < 2 || size > 100)
       return 'Size must be 2 <= N <= 100.';
 
     // return null;
   }
 
   bool checkIfInputValid() {
-    final size = int.parse(tableSize == null || tableSize == '' ? '0' : tableSize);
+    final size = getParsedNumber();
     if ((size != null && (size < 2 || size > 100) || size == null)) {
       return true;
     }
     return false;
+  }
+
+  num getParsedNumber() {
+    return int.parse(tableSize == null || tableSize == '' || !RegExp(r'^[0-9]*$').hasMatch(tableSize) ? '0' : tableSize);
   }
 }
