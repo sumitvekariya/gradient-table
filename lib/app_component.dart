@@ -1,7 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_components/focus/focus.dart';
-import 'package:angular_components/material_input/material_input.dart';
+import 'package:angular_components/material_input/material_number_accessor.dart';
 import 'package:angular_components/material_button/material_button.dart';
 
 @Component(selector: 'my-app', templateUrl: './app_component.html', styleUrls: [
@@ -12,42 +12,42 @@ import 'package:angular_components/material_button/material_button.dart';
   NgStyle,
   formDirectives,
   AutoFocusDirective,
-  materialInputDirectives,
+  materialNumberInputDirectives,
   MaterialButtonComponent
 ])
 class AppComponent {
-  var name = 'Gradient Table';
-  String tableSize;
-  var size = 32;
-  var rows = [];
-  var columns = [];
-  double maxRange = 256;
+  String name = 'Gradient Table';
+  num tableSize;
+  num size = 32;
+  List<int> rows = [];
+  List<String> columns = [];
+  num maxRange = 256;
   get checkValid => demoValidator;
 
   AppComponent() {}
 
   createTable() {
-    final tSize = int.parse(tableSize);
+    final int tSize = tableSize;
     rows = List.generate(tSize + 1, (i) => i);
     columns = List.generate(tSize + 1, (i) => toColumnName(i));
     size = tSize;
   }
 
-  String toColumnName(num) {
+  String toColumnName(columNum) {
     var ret = '';
-    if (num == 0) {
+    if (columNum == 0) {
       return 'null';
     } else {
-      for (var a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-        ret = String.fromCharCode(((num % b) / a).toInt() + 65) + ret;
+      for (var a = 1, b = 26; (columNum -= a) >= 0; a = b, b *= 26) {
+        ret = String.fromCharCode(((columNum % b) / a).toInt() + 65) + ret;
       }
       return ret;
     }
   }
 
   String getColor(i, j) {
-    var color;
-    var gapvh = 256 / (size);
+    num color;
+    num gapvh = 256 / (size);
     if (i == 1 && j == 1) {
       color = 255;
     } else if (i == size && j == size) {
@@ -59,26 +59,20 @@ class AppComponent {
     return 'rgb(255, $color, $color)';
   }
 
-  String demoValidator(dynamic inputText) {
-    // print(int.parse(inputText));
-    final size = getParsedNumber();
+  String demoValidator(String text) {
+    final num size = tableSize;
     if (size == null) return null;
 
-    if (size < 2 || size > 100)
-      return 'Size must be 2 <= N <= 100.';
+    if (size < 2 || size > 100) return 'Size must be 2 <= N <= 100.';
 
-    // return null;
+    if (size is! int) return 'Please enter valid integer.';
   }
 
   bool checkIfInputValid() {
-    final size = getParsedNumber();
-    if ((size != null && (size < 2 || size > 100) || size == null)) {
+    final size = tableSize;
+    if ((size != null && ((tableSize is! int) || size < 2 || size > 100)) || size == null) {
       return true;
     }
     return false;
-  }
-
-  num getParsedNumber() {
-    return int.parse(tableSize == null || tableSize == '' || !RegExp(r'^[0-9]*$').hasMatch(tableSize) ? '0' : tableSize);
   }
 }

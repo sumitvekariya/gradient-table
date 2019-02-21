@@ -1,16 +1,17 @@
-<material-input [checkValid]="checkValid" label="Enter Table Size" required
-    requiredErrorMsg="Please Enter Table Size!" [(ngModel)]="tableSize"></material-input>
-<material-button raised (click)="createTable()" [disabled]="checkIfInputValid()">Create Gradient!</material-button>
+<material-input [checkValid]="checkValid" label="Enter Table Size" required checkPositive [lowerBound]="2" [upperBound]="100"
+    requiredErrorMsg="Please Enter Table Size!" keypressUpdate [(ngModel)]="tableSize" type="number"></material-input>
+<material-button raised (click)="createTable()" [ngStyle]="{'pointer-events': checkIfInputValid() ? 'none' : ''}"
+    [disabled]="checkIfInputValid()">Create Gradient!</material-button>
 <div style="overflow-x:auto; overflow-y:scroll;height:83vh;">
     <table>
         <tr *ngFor="let r of rows; let i=index">
             <template ngFor let-c [ngForOf]="columns" let-j="index">
-                <th class="cell" *ngIf="i != 0 && j != 0" [ngStyle]="{'background-color': getColor(i, j) }">
-                </th>
                 <th *ngIf="i == 0 || j == 0">
                     <span *ngIf="i < 1 && j !== 0">{{c}}</span>
                     <span *ngIf="j < 1 && i !== 0">{{r}}</span>
                 </th>
+                <td class="cell" *ngIf="i != 0 && j != 0" [ngStyle]="{'background-color': getColor(i, j) }">
+                </td>
             </template>
         </tr>
     </table>
